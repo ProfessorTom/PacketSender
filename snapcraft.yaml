@@ -8,7 +8,7 @@ description: |
   packets. TCP, UDP, SSL, and HTTP. https://packetsender.com/
 
 source-code:
-  - https://github.com/dannagle/PacketSender
+  - https://github.com/professortom/PacketSender
 
 contact:
   - https://packetsender.com/contact
@@ -17,7 +17,7 @@ website:
   - https://packetsender.com
 
 issues:
-  - https://github.com/dannagle/PacketSender/issues
+  - https://github.com/professortom/PacketSender/issues
 
 donation:
   - https://www.paypal.com/biz/fund?id=RGDM593DYR9LJ
