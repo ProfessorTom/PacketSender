@@ -67,12 +67,11 @@ apps:
       
 parts:
   packetsender:
-    plugin: qmake
+    plugin: cmake
     source: src/
-    qmake-project-file: PacketSenderSnap.pro
-    qmake-major-version: 6
-    build-environment:
-      - QT_SELECT: qt6
+    cmake-parameters:
+      - -DCMAKE_INSTALL_PREFIX=/usr
+      - -DCMAKE_BUILD_TYPE=Release
     build-packages:
       - build-essential
       - qt6-base-dev
