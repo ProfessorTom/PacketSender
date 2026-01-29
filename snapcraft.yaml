@@ -64,8 +64,6 @@ apps:
       - removable-media
       - network
       - cups
-    environment:
-      LD_LIBRARY_PATH: ${LD_LIBRARY_PATH:+$LD_LIBRARY_PATH:}$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/libproxy:$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/qt6/plugins
       
 parts:
   packetsender:
