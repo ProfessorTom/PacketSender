@@ -39,10 +39,22 @@ confinement: strict
 environment:
   QT_PLUGIN_PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/qt6/plugins"
 
+plugs:
+  kf6-core24:
+    interface: content
+    target: $SNAP/kf6
+    default-provider: kf6-core24
+  gpu-2404:
+      interface: content
+      target: $SNAP/gpu-2404
+      default-provider: mesa-2404
+
 apps:
   packetsender:
     command: usr/local/bin/packetsender
     desktop: usr/share/applications/packetsender.desktop
+    extensions:
+      - kde-neon-6
     plugs:
       - desktop
       - desktop-legacy
