@@ -36,8 +36,6 @@ platforms:
 grade: stable
 base: core24
 confinement: strict
-environment:
-  QT_PLUGIN_PATH: "$SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/qt6/plugins"
 
 plugs:
   kf6-core24:
