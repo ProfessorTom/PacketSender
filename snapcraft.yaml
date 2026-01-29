@@ -51,8 +51,8 @@ plugs:
 
 apps:
   packetsender:
-    command: usr/local/bin/packetsender
-    desktop: usr/share/applications/packetsender.desktop
+    command: usr/bin/PacketSender          # ← matches install DESTINATION bin
+    desktop: usr/share/applications/professortom-packetsender-test.desktop   # ← matches the RENAME
     extensions:
       - kde-neon-6
     plugs:
