@@ -942,6 +942,7 @@ bool PacketNetwork::isMulticast(QString ip)
 
 void PacketNetwork::packetToSend(Packet sendpacket)
 {
+    QDEBUG() << "packetToSend called on PacketNetwork instance:" << this;
 
     sendpacket.receiveBeforeSend = receiveBeforeSend;
     sendpacket.delayAfterConnect = delayAfterConnect;
@@ -958,8 +959,14 @@ void PacketNetwork::packetToSend(Packet sendpacket)
 #ifndef CONSOLE_BUILD
     if (sendpacket.persistent && (sendpacket.isTCP())) {
         sendpacket.port = getPortToUseForPersistentClient(sendpacket.port);
+        QDEBUG() << "Persistent client will use port:" << sendpacket.port;
+
         //spawn a window.
         PersistentConnection * pcWindow = new PersistentConnection();
+
+        QDEBUG() << "Forced persistent client port to server port:" << sendpacket.port;
+        QDEBUG() << "Client sending to port:" << sendpacket.port;
+
         TCPThread * thread = new TCPThread(sendpacket, nullptr);
         pcWindow->sendPacket = sendpacket;
         pcWindow->init();
