@@ -59,7 +59,8 @@ void ThreadedTCPServer::incomingConnection(qintptr socketDescriptor)
 
     QDEBUGVAR(persistentConnectCheck);
 
-    TCPThread *thread = new TCPThread(socketDescriptor, this);
+    TCPThread *thread = new TCPThread(socketDescriptor, nullptr);
+    QDEBUG() << "Thread created with parent:" << thread->parent();
     thread->isSecure = encrypted;
     thread->packetReply = packetReply;
     thread->consoleMode = consoleMode;
