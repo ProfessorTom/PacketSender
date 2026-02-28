@@ -27,6 +27,7 @@ set(
   panelgenerator.h
   persistentconnection.h
   persistenthttp.h
+  persistentconnectionmanager.h
   postdatagen.h
   settings.h
   udpflooding.h
@@ -73,6 +74,7 @@ set(
   panel.cpp
   panelgenerator.cpp
   persistentconnection.cpp
+  persistentconnectionmanager.cpp
   persistenthttp.cpp
   postdatagen.cpp
   sendpacketbutton.cpp
