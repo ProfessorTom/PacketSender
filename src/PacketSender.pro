@@ -35,6 +35,7 @@ SOURCES += mainwindow.cpp \
     postdatagen.cpp \
     panelgenerator.cpp \
     persistenthttp.cpp \
+    persistentconnectionmanager.cpp \
     wakeonlan.cpp
 
 HEADERS  += mainwindow.h \
@@ -54,6 +55,7 @@ HEADERS  += mainwindow.h \
     postdatagen.h\
     panelgenerator.h \
     persistenthttp.h \
+    persistentconnectionmanager.h \
     wakeonlan.h
 
 
