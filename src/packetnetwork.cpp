@@ -100,6 +100,14 @@ void PacketNetwork::kill()
 
     QDEBUG();
 
+#ifndef CONSOLE_BUILD
+    if (m_connectionManager) {
+        m_connectionManager->shutdownAll();
+        delete m_connectionManager;
+        m_connectionManager = nullptr;
+    }
+#endif
+
     joinedMulticast.clear();
 
     //Packet Sender now supports any number of clients.
