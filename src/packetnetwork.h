@@ -137,11 +137,12 @@ private:
         QList<QNetworkAccessManager *> httpList;
         QList<Dtlsthread *> dtlsthreadList;
 
-        QList<TCPThread *> tcpthreadList;
 #ifdef CONSOLE_BUILD
         QList<void *> pcList;
 #else
         QList<PersistentConnection *> pcList;
+        PersistentConnectionManager *m_connectionManager = nullptr;
+        quint16 getPortToUseForPersistentClient(quint16 originalPort) const;
 #endif
         //PS now supports any number of servers.
         QList<ThreadedTCPServer *> tcpServers;

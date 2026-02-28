@@ -274,7 +274,6 @@ void PacketNetwork::init()
     sslServers.clear();
     receiveBeforeSend = false;
     delayAfterConnect = 0;
-    tcpthreadList.clear();
     pcList.clear();
 
 
@@ -924,7 +923,6 @@ void PacketNetwork::packetToSend(Packet sendpacket)
     if (sendpacket.persistent && (sendpacket.isTCP())) {
         //spawn a window.
         PersistentConnection * pcWindow = new PersistentConnection();
-        TCPThread * thread = new TCPThread(sendpacket, this);
         pcWindow->sendPacket = sendpacket;
         pcWindow->init();
         pcWindow->thread = thread;
@@ -950,7 +948,6 @@ void PacketNetwork::packetToSend(Packet sendpacket)
 
 
         //Network manager will manage this thread so the UI window doesn't need to.
-        tcpthreadList.append(thread);
 
         return;
 
@@ -972,9 +969,6 @@ void PacketNetwork::packetToSend(Packet sendpacket)
                  << connect(thread, SIGNAL(packetSent(Packet)), this, SLOT(packetSentECHO(Packet)));
         QDEBUG() << connect(thread, SIGNAL(destroyed()), this, SLOT(disconnected()));
 
-        //Prevent Qt from auto-destroying these threads.
-        //TODO: Develop a real thread manager.
-        tcpthreadList.append(thread);
         thread->start();
         return;
     }
