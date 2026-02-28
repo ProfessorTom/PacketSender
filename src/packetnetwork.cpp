@@ -960,6 +960,7 @@ void PacketNetwork::packetToSend(Packet sendpacket)
         sendpacket.port = getPortToUseForPersistentClient(sendpacket.port);
         //spawn a window.
         PersistentConnection * pcWindow = new PersistentConnection();
+        TCPThread * thread = new TCPThread(sendpacket, nullptr);
         pcWindow->sendPacket = sendpacket;
         pcWindow->init();
         pcWindow->thread = thread;
@@ -980,11 +981,21 @@ void PacketNetwork::packetToSend(Packet sendpacket)
         //connect(&packetNetwork, SIGNAL(packetSent(Packet)),
         //        this, SLOT(toTrafficLog(Packet)));
 
+        QDEBUG() << "In packetToSend - m_connectionManager is:" << (m_connectionManager ? "valid" : "nullptr");
+
+        if (m_connectionManager) {
+            m_connectionManager->registerConnection(pcWindow, thread);
+            QDEBUG() << "Registered persistent client thread with manager";
+        } else {
+            QDEBUG() << "Warning: No connection manager - thread may leak";
+        }
+
         pcWindow->show();
         thread->start();
 
 
         //Network manager will manage this thread so the UI window doesn't need to.
+        connect(thread, &TCPThread::connectStatus, pcWindow, &PersistentConnection::statusReceiver);
 
         return;
 
