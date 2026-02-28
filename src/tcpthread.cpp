@@ -749,6 +749,16 @@ bool TCPThread::isEncrypted()
 
 void TCPThread::sendPersistant(Packet sendpacket)
 {
+    if (!clientConnection) {
+        qWarning() << "sendPersistant called but clientConnection is null - ignoring";
+        return;
+    }
+
+    if (sendpacket.hexString.isEmpty() || clientConnection->state() != QAbstractSocket::ConnectedState) {
+        qDebug() << "Not sending: empty data or not connected";
+        return;
+    }
+
     if ((!sendpacket.hexString.isEmpty()) && (clientConnection->state() == QAbstractSocket::ConnectedState)) {
         QDEBUGVAR(sendpacket.hexString);
         clientConnection->write(sendpacket.getByteArray());
