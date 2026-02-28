@@ -34,7 +34,9 @@
 #include "dtlsthread.h"
 #include "dtlsserver.h"
 
-
+#ifndef CONSOLE_BUILD
+        class PersistentConnectionManager;
+#endif
 
 
 class PacketNetwork : public QObject
