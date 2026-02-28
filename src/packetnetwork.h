@@ -106,6 +106,9 @@ class PacketNetwork : public QObject
         static bool DTLSisSupported();
         QList<DtlsServer *> dtlsServers;
 
+#ifndef CONSOLE_BUILD
+        void registerPersistentConnection(PersistentConnection *w, TCPThread *t);
+#endif
 
     signals:
         void packetReceived(Packet sendpacket);

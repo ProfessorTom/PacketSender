@@ -1383,5 +1383,12 @@ void PacketNetwork::on_twoVerify_StateChanged(){
     }
 }
 
-
+#ifndef CONSOLE_BUILD
+void PacketNetwork::registerPersistentConnection(PersistentConnection *w, TCPThread *t)
+{
+    if (m_connectionManager) {
+        m_connectionManager->registerConnection(w, t);
+    }
+}
+#endif
 
