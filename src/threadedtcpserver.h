@@ -9,6 +9,9 @@
 #ifndef CONSOLE_BUILD
     #include "persistentconnection.h"
 #endif
+
+class PacketNetwork;
+
 class ThreadedTCPServer : public QTcpServer
 {
         Q_OBJECT
