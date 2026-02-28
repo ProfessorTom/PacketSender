@@ -957,6 +957,7 @@ void PacketNetwork::packetToSend(Packet sendpacket)
 
 #ifndef CONSOLE_BUILD
     if (sendpacket.persistent && (sendpacket.isTCP())) {
+        sendpacket.port = getPortToUseForPersistentClient(sendpacket.port);
         //spawn a window.
         PersistentConnection * pcWindow = new PersistentConnection();
         pcWindow->sendPacket = sendpacket;
