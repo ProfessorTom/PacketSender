@@ -412,6 +412,20 @@ void PersistentConnection::socketDisconnected()
 
 void PersistentConnection::on_asciiSendButton_clicked()
 {
+
+    if (!thread) {
+        QDEBUG() << "No thread object - cannot send";
+        statusReceiver("No connection thread - try restarting the send");
+        return;
+    }
+
+    if (!thread->isRunning()) {
+        QDEBUG() << "Thread not running - likely previous connect failed";
+        // Optional: attempt to restart thread or show reconnect button
+        statusReceiver("Connection lost or failed - check server/port and retry");
+        return;
+    }
+
     QString ascii = ui->asciiLineEdit->text();
     if (ascii.isEmpty()) {
         return;
