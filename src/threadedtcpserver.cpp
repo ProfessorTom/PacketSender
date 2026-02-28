@@ -35,12 +35,6 @@ bool ThreadedTCPServer::init(quint16 port, bool isEncrypted, QString ipMode)
 
     encrypted = isEncrypted;
 
-
-    tcpthreadList.clear();
-#ifndef CONSOLE_BUILD
-    pcList.clear();
-#endif
-
     bool bindResult = listen(
                           IPV4_OR_IPV6
                           , port);
@@ -97,13 +91,6 @@ void ThreadedTCPServer::incomingConnection(qintptr socketDescriptor)
 
         pcWindow->show();
 
-        //Prevent Qt from auto-destroying these windows.
-        //TODO: Use a real connection manager.
-        pcList.append(pcWindow);
-
-        //TODO: Use a real connection manager.
-        //prevent Qt from auto-destorying this thread while it tries to close.
-        tcpthreadList.append(thread);
 #endif
     } else {
 

@@ -44,14 +44,6 @@ class ThreadedTCPServer : public QTcpServer
         QList<TCPThread *> threads;
         Packet packetReply;
 
-
-
-        QList<TCPThread *> tcpthreadList;
-#ifndef CONSOLE_BUILD
-
-        QList<PersistentConnection *> pcList;
-#endif
-
 };
 
 #endif // THREADEDTCPSERVER_H
