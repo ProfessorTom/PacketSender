@@ -78,12 +78,27 @@ void PersistentConnectionManager::shutdownAll()
         //    Use a short timeout loop instead of one long wait to keep GUI responsive
         QElapsedTimer timer;
         timer.start();
-        while (!m_threads.isEmpty() && timer.elapsed() < 1000) {  // max 1 second
-            QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
-            QThread::msleep(50);  // small sleep to avoid busy-wait
+        int stillRunning = m_threads.size();
+
+        while (stillRunning > 0 && timer.elapsed() < 5000) {  // 5s max timeout
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+            QThread::msleep(100);
+
+            stillRunning = 0;
+            for (auto *t : m_threads) {
+                if (t->isRunning()) stillRunning++;
+            }
+
+            if (stillRunning > 0) {
+                QDEBUG() << "Waiting for" << stillRunning << "threads to exit... (" << timer.elapsed() << "ms)";
+            }
         }
 
-        QDEBUG() << "After processEvents - remaining threads:" << m_threads.size();
+        if (stillRunning > 0) {
+            qWarning() << "Timeout: " << stillRunning << " threads still running after 5s!";
+        } else {
+            QDEBUG() << "All threads exited cleanly (" << timer.elapsed() << "ms)";
+        }
 
         // 4. If any threads still running, warn (but proceed — Qt will abort anyway)
         if (!m_threads.isEmpty()) {
