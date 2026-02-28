@@ -94,6 +94,25 @@ PacketNetwork::PacketNetwork(QObject *parent) :
 
 }
 
+#ifndef CONSOLE_BUILD
+    quint16 PacketNetwork::getPortToUseForPersistentClient(quint16 originalPort) const
+    {
+        if (tcpServers.isEmpty()) {
+            QDEBUG() << "No TCP servers available - using original port:" << originalPort;
+            return originalPort;
+        }
+
+        ThreadedTCPServer *first = tcpServers.constFirst();
+        if (first && first->isListening()) {
+            quint16 detected = first->serverPort();
+            QDEBUG() << "Detected listening TCP port:" << detected << "- overriding original:" << originalPort;
+            return detected;
+        }
+
+        QDEBUG() << "No listening TCP server found - using original port:" << originalPort;
+        return originalPort;
+    }
+#endif
 
 void PacketNetwork::kill()
 {
