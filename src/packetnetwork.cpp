@@ -29,7 +29,9 @@
 #include "dtlsserver.h"
 
 
-
+#ifndef CONSOLE_BUILD
+    #include "persistentconnectionmanager.h"
+#endif
 
 #ifdef CONSOLE_BUILD
 class QMessageBox {
