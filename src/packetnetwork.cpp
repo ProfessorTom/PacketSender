@@ -85,6 +85,13 @@ PacketNetwork::PacketNetwork(QObject *parent) :
     QDEBUG() << " http connect attempt:" << connect(http, SIGNAL(finished(QNetworkReply*)),
              this, SLOT(httpFinished(QNetworkReply*)));
     consoleMode = false;
+
+#ifndef CONSOLE_BUILD
+    m_connectionManager = new PersistentConnectionManager(this);
+    QDEBUG() << "PersistentConnectionManager created:" << m_connectionManager;
+    QDEBUG() << "PacketNetwork constructed - this pointer:" << this;
+#endif
+
 }
 
 
