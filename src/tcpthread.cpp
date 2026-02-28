@@ -389,7 +389,15 @@ void TCPThread::persistentConnectionLoop()
 void TCPThread::closeConnection()
 {
     QDEBUG() << "Closing connection";
-    clientConnection->close();
+
+    closeRequest = true;
+
+    if (clientConnection) {
+        clientConnection->abort();           // immediate wake-up for waitForReadyRead
+        clientConnection->close();           // extra safety
+        clientConnection->deleteLater();
+        clientConnection = nullptr;
+    }
 }
 
 
