@@ -16,6 +16,7 @@
 #include "globals.h"
 #include "tcpthread.h"
 #include "packet.h"
+#include "packetnetwork.h"
 
 ThreadedTCPServer::ThreadedTCPServer(QObject *parent) :
     QTcpServer(parent)
@@ -86,7 +87,16 @@ void ThreadedTCPServer::incomingConnection(qintptr socketDescriptor)
                  << connect(thread, SIGNAL(toStatusBar(QString, int, bool)), this, SLOT(toStatusBarECHO(QString, int, bool)))
                  << connect(thread, SIGNAL(packetSent(Packet)), this, SLOT(packetSentECHO(Packet)));
 
-
+        PacketNetwork *packetNetwork = qobject_cast<PacketNetwork*>(parent());
+        if (packetNetwork) {
+            packetNetwork->registerPersistentConnection(pcWindow, thread);
+        } else {
+            // Fallback: clean up to avoid leak (shouldn't happen)
+            QDEBUG() << "Warning: No PacketNetwork parent found — deleting persistent objects";
+            delete pcWindow;
+            delete thread;
+            return;
+        }
 
         thread->start();
 
